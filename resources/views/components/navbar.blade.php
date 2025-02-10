@@ -6,7 +6,7 @@
       <div id="sidebar-menu">
 
           <div class="logo-box">
-              <a class='logo logo-light' href='/'>
+              <a class='logo logo-light' href='{{route('home')}}'>
                   <span class="logo-sm">
                       <img src="{{asset('assets/images/logo-sm.png')}}" alt="" height="22">
                   </span>
@@ -14,7 +14,7 @@
                       <img src="{{asset('assets/images/logo-light.png')}}" alt="" height="24">
                   </span>
               </a>
-              <a class='logo logo-dark' href='/'>
+              <a class='logo logo-dark' href='{{route('home')}}'>
                   <span class="logo-sm">
                       <img src="{{asset('assets/images/logo-sm.png')}}" alt="" height="22">
                   </span>
@@ -181,14 +181,14 @@
                 </li>
             @endif
             
-            @can('расходование')
+            {{-- @can('расходование')
                 <li>
                     <a class='tp-link' href="{{route('expenditures.index')}}">
                         <img src="{{asset('assets/images/icons/expenditure.png')}}">
                         <span> Расход </span>
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @can('услуга')
                 <li>
                     <a class='tp-link' href="{{route('services.index')}}">
