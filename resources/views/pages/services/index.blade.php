@@ -15,9 +15,9 @@
                       <h4 class="fw-bold mb-3">Товары</h4>
                       <div class="row  justify-content-between p-2" style="background-color: #F9F9FC;border-radius:10px;" >
                         <div class="col-4">
-                          <form action="{{ url('/services') }}" class="d-flex" method="GET">
-                            <input type="search" class="form-control" oninput="this.form.submit()" name="search" value="{{ request('search') }}" placeholder="Поиск"/>
-                        </form>
+                          <form action="{{ url('/services') }}" id="form" class="d-flex" method="GET">
+                            <input type="search" class="form-control" onkeyup="doSearch(this.value)"  name="search" value="{{ request('search') }}" placeholder="Поиск"/>
+                          </form>
                         </div>
                         <div class="col-8">
                           <a href="{{route('services.create')}}" class="btn btn-success float-end mx-2">

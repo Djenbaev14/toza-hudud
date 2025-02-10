@@ -102,7 +102,7 @@
 
                                               <div class="form-group row">
                                                   <div class="col-lg-12 col-xl-12">
-                                                      <button type="submit" class="btn btn-primary">Изменить пароль</button>
+                                                      <button type="submit" class="btn btn-success">Изменить пароль</button>
                                                       <button type="button" class="btn btn-danger">Отменить</button>
                                                   </div>
                                               </div>

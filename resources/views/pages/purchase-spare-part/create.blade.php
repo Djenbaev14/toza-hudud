@@ -200,8 +200,8 @@
                       const barcodeInput = row.querySelector('.barcode-input');
 
                       if (productId) {
-                          // AJAX orqali narxni olib kelish
-                          fetch(`/spare-part/get-product-price/${productId}`, {
+                          const APP_URL = "{{ config('app.url') }}";
+                          fetch(`${APP_URL}/spare-part/get-product-price/${productId}`, {
                             method: 'GET',
                           })
                           .then(response => response.json())

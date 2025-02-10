@@ -47,13 +47,13 @@ class ClientController extends Controller
         }
 
         $client=new Customer();
-        $client->user_id=auth()->user()->id;
         $client->type=$request->type;
         $client->full_name=$request->full_name;
         $client->phone=$request->phone;
         $client->company_name=$request->company_name;
         $client->birth_date=$request->birth_date;
         $client->district_id=$request->district_id;
+        $client->pinfl_or_inn=$request->pinfl_or_inn;
         $client->address=$request->address;
         $client->description=$request->description;
         $client->save();
@@ -81,7 +81,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**

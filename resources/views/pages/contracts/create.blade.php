@@ -235,21 +235,20 @@
                     const priceInput = row.querySelector('.price-input');
                     const quantityInput = row.querySelector('.quantity-input');
                     const unitSpan = row.querySelector('.unit-span');
-
+                    
+                  
                     if (productId) {
+                        const APP_URL = "{{ config('app.url') }}";
                         // AJAX orqali narxni olib kelish
-                        fetch(`/contracts/get-service-price/${productId}`, {
+                        fetch(`${APP_URL}/contracts/get-service-price/${productId}`, {
                           method: 'GET',
                         })
                         .then(response => response.json())
                         .then(data => {
-                            if (data.price) {
-                              
                                 priceInput.value = data.price; // Narxni o‘rnatish
                                 // totalInput.value = data.price * quantityInput.value; // Umumiy qiymatni hisoblash
                                 unitSpan.textContent="("+data.unit+")";
                                 updateGrandTotal(); // Yig‘indini yangilash
-                            }
                         })
                         .catch(error => console.error('Error:', error));
                     } else {

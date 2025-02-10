@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth']], function() {
     
     Route::resource( 'services', ServiceController::class);
     Route::resource( 'contracts', ContractController::class);
-    Route::get('/contracts/get-service-price/{serviceId}', [ContractController::class, 'getServicePrice']); 
+    Route::get('/contracts/get-service-price/{serviceId}', [ContractController::class, 'getServicePrice'])->name('getServicePrice'); 
     Route::get('/contracts-search', [ContractController::class, 'search'])->name('contracts.search');
     Route::get('/contracts-details', [ContractController::class, 'details'])->name('contracts.details');
 

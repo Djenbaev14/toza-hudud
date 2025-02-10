@@ -34,9 +34,9 @@
                               <thead>
                                   <tr>
                                       <th scope="col">ФИО</th>
+                                      <th scope="col">ПИФЛ или ИНН</th>
                                       <th scope="col">Телефон номер</th>
                                       <th scope="col">День рождения</th>
-                                      <th scope="col">Адрес</th>
                                       <th scope="col">Тип лица</th>
                                       <th scope="col">Действия</th>
                                   </tr>
@@ -45,9 +45,9 @@
                                 @forelse ($customers as $customer)
                                 <tr class="align-middle">
                                   <td>{{$customer->full_name}}</td>
+                                  <td>{{$customer->pinfl_or_inn}}</td>
                                   <td>{{$customer->phone}}</td>
                                   <td>{{$customer->birth_date}}</td>
-                                  <td>{{$customer->address}}</td>
                                   <td><?=($customer->type == 'individual') ? 'Физическое лицо' : 'Юридическое лицо';?></td>
                                   <td>
                                     

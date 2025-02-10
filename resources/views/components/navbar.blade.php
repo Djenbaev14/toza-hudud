@@ -181,14 +181,14 @@
                 </li>
             @endif
             
-            {{-- @can('расходование')
+            @can('расходование')
                 <li>
                     <a class='tp-link' href="{{route('expenditures.index')}}">
                         <img src="{{asset('assets/images/icons/expenditure.png')}}">
                         <span> Расход </span>
                     </a>
                 </li>
-            @endcan --}}
+            @endcan
             @can('услуга')
                 <li>
                     <a class='tp-link' href="{{route('services.index')}}">
