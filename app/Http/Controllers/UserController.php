@@ -24,7 +24,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        $users=User::where('deleted_at',null)->where('is_active',1)->get();
+        $users=User::where('deleted_at',null)->where('is_active',1)->orderBy('id','desc')->get();
         return view('pages.users.index',compact('users',));
     }
 
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles=Role::all();
+        $roles=Role::whereNot('role_type','admin')->get();
         $branches=Branch::where('deleted_at',null)->where('is_active',1)->get();
         return view('pages.users.create',compact('roles','branches'));
     }

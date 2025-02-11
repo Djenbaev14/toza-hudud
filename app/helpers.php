@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\Customer;
+use App\Models\Driver;
+use App\Models\Garage;
 use App\Models\OutputSparePartProduct;
 use App\Models\OutputStationeryProduct;
 use App\Models\Purchase_Spare_product;
 use App\Models\Purchase_stationer_product;
 use App\Models\Spare_part;
+use App\Models\User;
 
   function totalSumPurchaseSparePart($purchase_products){
     $total=0;
@@ -44,6 +48,21 @@ use App\Models\Spare_part;
       $count=Purchase_Spare_product::where('spare_part_id','=',$spare_part_id)->sum('quantity')-OutputSparePartProduct::where('spare_part_id','=',$spare_part_id)->sum('quantity');
     // }
     return $count;
+  }
+
+  function countCar(){
+    return Garage::whereNull('deleted_at')->count();
+  }
+  function countDriver(){
+    return Driver::whereNull('deleted_at')->count();
+  }
+  function countClient(){
+    return Customer::whereNull('deleted_at')->count();
+  }
+  function countUser(){
+    return User::whereDoesntHave('roles', function ($query) {
+      $query->where('name', 'Главный админ');
+  })->whereNull('deleted_at')->count();
   }
 
 ?>
