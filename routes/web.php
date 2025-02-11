@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
 
     Route::resource('drivers', DriverController::class);
-    Route::get('/getDriver/{id}', [DriverController::class, 'getDriver']);
+    Route::get('/getDriver/{id}', [DriverController::class, 'getDriver'])->name('driver.getdriver');
     Route::resource('services', ServiceController::class);
     Route::resource( 'products', ProductController::class);
     Route::resource( 'purchases', PurchaseController::class);
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource( 'branches', BranchController::class);
     Route::get('/branches/getEmployee/{id}', [BranchController::class, 'getEmployee']);
-    Route::get('/branches/getGarages/{id}', [BranchController::class, 'getGarages']);
+    Route::get('/branches/getGarages/{id}', [BranchController::class, 'getGarages'])->name('branches.getGarages');
 
     Route::resource( 'spare-part', SparePartController::class);
     Route::resource( 'purchase-spare-part', PurchaseSpareController::class);
@@ -90,11 +90,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/stationery/get-product-price/{productId}', [PurchaseStationeryController::class, 'getProductPrice']);
     
     Route::resource( 'output-stationery', OutputStationeryController::class);
-    Route::get('/output-stationery/quantity-stationery/{stationeryId}', [OutputStationeryController::class, 'quanStationery']);
+    Route::get('/output-stationery/quantity-stationery/{stationeryId}', [OutputStationeryController::class, 'quanStationery'])->name('output.stationery/quantity-stationery');
     Route::resource( 'output-spare-part', OutputSparePartController::class);
     Route::get('/output-spare-part/search', [OutputSparePartController::class, 'search'])->name('output-spare-part.search');
     
-    Route::get('/output-spare-part/quantity-spare-part/{sparePartId}', [OutputSparePartController::class, 'quanSparePart']);
+    Route::get('/output-spare-part/quantity-spare-part/{sparePartId}', [OutputSparePartController::class, 'quanSparePart'])->name('quanSparePart');
 
     
     Route::resource( 'services', ServiceController::class);

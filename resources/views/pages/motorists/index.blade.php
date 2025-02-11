@@ -124,7 +124,11 @@
 
 @push('js')
 <script>
+    
     function deleteItem(motorist_id) {
+        let deleteMotoristId = @json(route('motorists.destroy', '__ID__'));
+        deleteMotoristId = deleteMotoristId.replace('__ID__', motorist_id);
+        
         Swal.fire({
         title: "Вы уверены?",
         text: "Вы не сможете этого исправить!",
@@ -135,7 +139,7 @@
         confirmButtonText: "Да, удалите его!"
         }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/motorists/${motorist_id}`, {
+            fetch(deleteMotoristId, {
                 method: 'DELETE', // HTTP metodi
                 headers: {
                     'Content-Type': 'application/json', // So'rovning content-type'ini belgilash
@@ -179,10 +183,12 @@
 
 <script>
     function updateStatus(check,motorist_id){
-        let status = check ? 1 : 0;
         
-         // Make an API call to update the status
-        fetch(`/motorists/${motorist_id}/update-status`, {
+        let status = check ? 1 : 0;
+        // `/motorists/${motorist_id}/update-status`
+        let updateStatusUrl = @json(route('motorists.update.status', '__ID__'));
+        updateStatusUrl = updateStatusUrl.replace('__ID__', motorist_id);
+        fetch(updateStatusUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -191,6 +197,8 @@
             body: JSON.stringify({ status: status })
         })
         .then(response => {
+            console.log(response);
+            
                 if (response.ok) {
                     setTimeout(() => {
                         location.reload();  

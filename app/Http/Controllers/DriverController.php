@@ -55,7 +55,6 @@ class DriverController extends Controller
             'license_issue_date'=>'required',
             'license_expiry_date'=>'required',
             'branch_id'=>'required',
-            'garage_id'=>'required|unique:garage_drivers,garage_id,'.$request->garage_id,
         ]);
         if($request->has('photo')){
             $request->validate([

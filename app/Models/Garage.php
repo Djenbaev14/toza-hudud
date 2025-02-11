@@ -25,7 +25,7 @@ class Garage extends Model
     }
     // driver relationship
     public function garage_driver(){
-        return $this->belongsTo(GarageDriver::class);
+        return $this->hasOne(GarageDriver::class);
     }
     public function garage_expenditure_type(){
         return $this->hasMany(Garage_expenditure_type::class);

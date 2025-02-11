@@ -98,7 +98,7 @@
                             </div> <!-- end sales -->
             </div> <!-- end row -->
 
-            <div class="card mt-4">
+            {{-- <div class="card mt-4">
                 <div class="row">
                     <div class="col-6">
                         <canvas id="myLineChart" 
@@ -106,7 +106,7 @@
                         </canvas>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div> 
 	</div> 
 @endsection

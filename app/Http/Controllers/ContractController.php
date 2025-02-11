@@ -138,7 +138,7 @@ class ContractController extends Controller
     {
         $query = $request->input('query');
 
-        $results = Customer::where('pinfl_or_inn', 'LIKE', "%".$query."%")->take(10)->pluck('pinfl_or_inn');
+        $results = Customer::where('pinfl_or_inn', 'LIKE', "%".$query."%")->orWhere('full_name', 'LIKE', "%".$query."%")->take(10)->get(['pinfl_or_inn','id','full_name']);
 
         return response()->json($results);
     }

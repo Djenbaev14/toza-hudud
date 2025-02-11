@@ -22,16 +22,17 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-12">
-                        <form action="{{route('drivers.store')}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('motorists.store')}}" method="POST" enctype="multipart/form-data">
                           @csrf
                           <div class="row">
                             <div class="col-lg-6 col-sm-12 mb-3">
                               <label for="">Список автомобилей</label>
-                              <select name="branch_id" onchange="showGarage(this)" style="width: 100%" class="garage form-control" >
+                              <select name="garage_id" onchange="showGarage(this)" style="width: 100%" class="garage form-control" >
                                 <option value="" hidden>Список автомобилей</option>
-                                @foreach ($garages as $garage)
+                                @forelse ($garages as $garage)
                                     <option value="{{$garage->id}}">{{$garage->car->name}}|{{$garage->car_number}}</option>
-                                @endforeach
+                                  @empty
+                                @endforelse
                               </select>
                               <div class="mt-3" id="divAttributesGarage" style="display: none"></div>
                             </div>
@@ -39,11 +40,12 @@
                           <div class="row">
                             <div class="col-lg-6 col-sm-12 mb-3">
                               <label for="">Список автомобилей</label>
-                              <select name="branch_id" onchange="showGarage(this)" style="width: 100%" class="garage form-control" >
+                              <select name="driver_id" onchange="showGarage(this)" style="width: 100%" class="garage form-control" >
                                 <option value="" hidden>Список автомобилей</option>
-                                @foreach ($drivers as $driver)
+                                @forelse ($drivers as $driver)
                                     <option value="{{$driver->id}}">{{$driver->full_name}}</option>
-                                @endforeach
+                                  @empty
+                                @endforelse
                               </select>
                               <div class="mt-3" id="divAttributesDriver" style="display: none"></div>
                             </div>
@@ -107,25 +109,6 @@
     </style>
 @endpush
 @push('js')
-  <script>
-    document.getElementById("logo-upload").addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        if (file && file.size <= 10 * 1024 * 1024) { // 10 MB
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const logoPreview = document.getElementById("logo-preview");
-                logoPreview.src = e.target.result;
-                logoPreview.style.display = "block";
-                
-                // Placeholderni yashirish
-                document.getElementById("placeholder").style.display = "none";
-                document.getElementById("change-icon").style.display = "inline-block";
-                document.getElementById("upload-area").style.display = "none";
-            };
-            reader.readAsDataURL(file);
-        } 
-    });
-  </script>
   <script>
     function ShowCar(element){
             const typeId = element.value;

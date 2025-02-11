@@ -197,7 +197,9 @@
               const divGarages = document.getElementById('divGarages');
               const single = document.getElementById('single');
 
-              fetch(`/branches/getGarages/${typeId}`, {
+              let branchGetGarages = @json(route('branches.getGarages', '__ID__'));
+              branchGetGarages = branchGetGarages.replace('__ID__', typeId);
+              fetch(branchGetGarages, {
                   method: 'GET',
               })
               .then(response => response.json())
@@ -229,7 +231,9 @@
               
               const divDriver = document.getElementById('divDriver');
 
-              fetch(`/getDriver/${typeId}`, {
+              let getDriver = @json(route('driver.getdriver', '__ID__'));
+              getDriver = getDriver.replace('__ID__', typeId);
+              fetch(getDriver, {
                   method: 'GET',
               })
               .then(response => response.json())
@@ -303,9 +307,11 @@
                       const productId = e.target.value;
                       const quantityInput = row.querySelector('.quantity-input');
 
+                      let quanSparePart = @json(route('quanSparePart', '__ID__'));
+                      quanSparePart = quanSparePart.replace('__ID__', productId);
                       if (productId) {
                           // AJAX orqali narxni olib kelish
-                          fetch(`/output-stationery/quantity-stationery/${productId}`, {
+                          fetch(quanSparePart, {
                             method: 'GET',
                           })
                           .then(response => response.json())

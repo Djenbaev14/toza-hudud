@@ -7,6 +7,7 @@ use App\Models\Driver;
 use App\Models\Garage;
 use App\Models\GarageDriver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MotoristController extends Controller
 {
@@ -37,9 +38,13 @@ class MotoristController extends Controller
      */
     public function create()
     {
-        $garages=Garage::whereNull('deleted_at')->orderBy('id','desc')->get();
-        $drivers=Driver::whereNull('deleted_at')->orderBy('id','desc')->get();
-        return view('pages.motorists.create',compact('garages'));
+        $garages=Garage::whereNull('deleted_at')->whereDoesntHave('garage_driver', function ($query) {
+            $query->where('deleted_at',null);
+        })->orderBy('id','desc')->get();
+        $drivers=Driver::whereNull('deleted_at')->whereDoesntHave('garage_driver', function ($query) {
+            $query->where('deleted_at',null);
+        })->orderBy('id','desc')->get();
+        return view('pages.motorists.create',compact('garages','drivers'));
     }
 
     /**
@@ -47,7 +52,23 @@ class MotoristController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'garage_id'=>'required',
+            'driver_id'=>'required',
+        ]);
+        if(GarageDriver::where('driver_id',$request->driver_id)->where('garage_id',$request->garage_id)->exists()){
+            return redirect()->route('motorists.index')->with('error','Error');
+        } else{
+            GarageDriver::create([
+                'user_id'=> Auth::user()->id,
+                'branch_id'=>Garage::find($request->garage_id)->branch_id,
+                'garage_id'=>$request->garage_id,
+                'driver_id'=>$request->driver_id,
+            ]);
+        }
+
+
+        return redirect()->route('motorists.index')->with('success','Success created');
     }
 
     /**
@@ -94,7 +115,6 @@ class MotoristController extends Controller
         ]);
 
         $motorist=GarageDriver::find($motorist_id);
-
         if ($motorist) {
             // Update the status
             $motorist->is_active = $request->status;

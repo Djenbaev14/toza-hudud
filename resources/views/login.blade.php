@@ -18,6 +18,7 @@
 
         <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
 
     <body class="bg-white">
@@ -45,7 +46,12 @@
                 
                                             <div class="form-group mb-3">
                                                 <label for="password" class="form-label">Парол</label>
-                                                <input class="form-control" type="password" value="{{old('password')}}"  id="password" name="password" placeholder="Введите парол">
+                                                <div class="input-group">
+                                                    <input type="password" id="password" value="{{old('password')}}" class="form-control" name="password" placeholder="Введите парол">
+                                                    <button class="btn btn-outline-success" type="button" id="togglePassword">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
                                                 @if($errors->has('password'))
                                                     <div class="error text-danger">{{ $errors->first('password') }}</div>
                                                 @endif
@@ -86,6 +92,21 @@
         <!-- App js-->
         <script src="{{asset('assets/js/app.js')}}"></script>
         
+        <script>
+            document.getElementById('togglePassword').addEventListener('click', function () {
+                let passwordInput = document.getElementById('password');
+                let icon = this.querySelector('i');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        </script>
     </body>
 
 <!-- Mirrored from zoyothemes.com/tapeli/html/auth-login by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Oct 2024 16:04:08 GMT -->

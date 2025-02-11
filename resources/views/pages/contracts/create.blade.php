@@ -24,11 +24,26 @@
                       </div>
                   </div>
                   
+                  <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="clientModalLabel">Поиск клиента</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <input type="text" id="modal-search-box" class="form-control" placeholder="ПИНФЛ или ИНН...">
+                          <ul id="modal-search-results" class="list-group mt-2"></ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
                             <form method="POST" action="{{route('contracts.store')}}">
                               @csrf
+                              <input type="hidden" name="client_id" id="client_id">
                               <div class="row">
                                 <div class="col-4">
                                   <div class="mb-3">
@@ -43,7 +58,7 @@
                                         <span class="text-danger text-sm">{{ $message }}</span>
                                     @enderror
                                   </div>
-                                  <div class="mb-3">
+                                  {{-- <div class="mb-3">
                                     <div class="" style="position: relative;">
                                       <label class="form-label">Клиент</label>
                                         <input type="text" class="form-control" id="search-box" name="pinfl_or_inn" placeholder="ПИНФЛ или ИНН..." autocomplete="off">
@@ -54,6 +69,15 @@
                                     @enderror
                                     <div id="client-details" class="mt-3">
                                     </div>
+                                  </div> --}}
+                                  <div class="mb-3">
+                                      <div class="" style="position: relative;">
+                                          <label class="form-label">Клиент</label>
+                                          <input type="text" class="form-control" id="search-box" name="pinfl_or_inn" placeholder="Поиск клиент" autocomplete="off">
+                                      </div>
+                                      @error('client')
+                                          <span class="text-danger text-sm">{{ $message }}</span>
+                                      @enderror
                                   </div>
                                   <div class="mb-3">
                                       <label class="form-label">Договор номер</label>
@@ -280,75 +304,117 @@
 
 <script>
   $(document).ready(function () {
-      $('#search-box').on('keyup', function () {
+    
+    let previousValue = '';
+            
+            $('#search-box').on('click', function () {
+                $('#clientModal').modal('show'); // Modalni ko'rsatish
+            });
+            $('#modal-search-box').on('keyup', function () {
+                let query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "{{ route('contracts.search') }}",
+                        type: "GET",
+                        data: { query: query },
+                        success: function (data) {
+                            
+                            let results = $('#modal-search-results');
+                            let modalDialog=$('#modal-dialog');
+                            results.empty();
+    
+                            if (data.length > 0) {
+                              data.forEach(function callback(value, index) {
+                                    results.append(`<li class='list-group-item' data-id='${value['id']}'>${value['full_name']} | ${value['pinfl_or_inn']}</li>`);
+                                });
+                            } else {
+                                results.append('<span> Ничего не найдено </span>');
+                                if (previousValue) {
+                                $('#search-box').val(previousValue);
+                            }
+                            }
+                        }
+                    });
+                } else {
+                    $('#modal-search-results').empty();
+                }
+            });
+
+            
+        $(document).on('click', '#modal-search-results li', function () {
+            
+            let selectedClient = $(this).text();
+            let clientId = $(this).data('id'); 
+            $('#client_id').val(clientId); 
+            
+            previousValue = selectedClient;
+            $('#search-box').val(selectedClient);
+            $('#clientModal').modal('hide'); 
+
+        });
+      // $('#search-box').on('keyup', function () {
         
-          let query = $(this).val();
+      //     let query = $(this).val();
           
-          if (query.length > 0) {
-              $.ajax({
-                  url: "{{ route('contracts.search') }}",
-                  type: "GET",
-                  data: { query: query },
-                  success: function (data) {
+      //     if (query.length > 0) {
+      //         $.ajax({
+      //             url: "{{ route('contracts.search') }}",
+      //             type: "GET",
+      //             data: { query: query },
+      //             success: function (data) {
                     
-                      let results = $('#search-results');
-                      results.empty();
+      //                 let results = $('#search-results');
+      //                 results.empty();
 
-                      if (data.length > 0) {
+      //                 if (data.length > 0) {
                         
-                          data.forEach(item => {
-                              results.append(`<li class='list-group-item'>${item}</li>`);
-                          });
-                      } else {
-                          results.append('<li>No results found</li>');
-                      }
-                  }
-              });
-          } else {
-              $('#search-results').empty();
-          }
-      });
+      //                     data.forEach(item => {
+      //                         results.append(`<li class='list-group-item'>${item}</li>`);
+      //                     });
+      //                 } else {
+      //                     results.append('<li>No results found</li>');
+      //                 }
+      //             }
+      //         });
+      //     } else {
+      //         $('#search-results').empty();
+      //     }
+      // });
 
-      // Listga bosilganda
+
       // $(document).on('click', '#search-results li', function () {
+      //     let pinfl_or_inn = $(this).text();
+          
       //     $('#search-box').val($(this).text());
       //     $('#search-results').empty();
 
-      // });
-
-      $(document).on('click', '#search-results li', function () {
-          let pinfl_or_inn = $(this).text();
-          
-          $('#search-box').val($(this).text());
-          $('#search-results').empty();
-
-          $.ajax({
-              url: "{{ route('contracts.details') }}", // Ensure this route returns client details
-              type: "GET",
-              data: { pinfl_or_inn: pinfl_or_inn },
-              success: function (data) {
-                  let details = $('#client-details');
-                  details.empty();
+      //     $.ajax({
+      //         url: "{{ route('contracts.details') }}", // Ensure this route returns client details
+      //         type: "GET",
+      //         data: { pinfl_or_inn: pinfl_or_inn },
+      //         success: function (data) {
+      //             let details = $('#client-details');
+      //             details.empty();
                   
-                  if (data) {
-                    // Create a new table
-                    let table = $('<table>').addClass('table table-bordered');
-                    let tbody = $('<tbody>');
+      //             if (data) {
+      //               // Create a new table
+      //               let table = $('<table>').addClass('table table-bordered');
+      //               let tbody = $('<tbody>');
 
-                    // Populate the table with client details
-                    tbody.append(`<tr><td class='fw-bold'>ФИО</td><td>${data.full_name}</td></tr>`);
-                    tbody.append(`<tr><td class='fw-bold'>Адрес</td><td>${data.address}</td></tr>`);
-                    tbody.append(`<tr><td class='fw-bold'>Телефон номер</td><td>${data.phone}</td></tr>`);
-                    // Add more fields as needed
+      //               // Populate the table with client details
+      //               tbody.append(`<tr><td class='fw-bold'>ФИО</td><td>${data.full_name}</td></tr>`);
+      //               tbody.append(`<tr><td class='fw-bold'>Адрес</td><td>${data.address}</td></tr>`);
+      //               tbody.append(`<tr><td class='fw-bold'>Телефон номер</td><td>${data.phone}</td></tr>`);
+      //               // Add more fields as needed
 
-                    table.append(tbody);
-                    details.append(table);
-                  } else {
-                      details.append('<p>Подробностей об этом клиенте нет.</p>');
-                  }
-              }
-          });
-      });
+      //               table.append(tbody);
+      //               details.append(table);
+      //             } else {
+      //                 details.append('<p>Подробностей об этом клиенте нет.</p>');
+      //             }
+      //         }
+      //     });
+      // });
 });
 
 
