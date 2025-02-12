@@ -28,6 +28,7 @@
                 background-color: #89CB3D;
             }
         </style>
+        {{-- @livewireStyles --}}
     </head>
 
     <!-- body start -->
@@ -57,6 +58,7 @@
         </div>
         <!-- END wrapper -->
         @include('sweetalert::alert')
+        {{-- @livewireScripts --}}
         @stack('js')
         <!-- Vendor -->
         <script src="{{asset('assets/libs/jquery/jquery.min.js')}}"></script>

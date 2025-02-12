@@ -10,8 +10,9 @@
 
         <div class="row mt-4">
           <div class="col-12">
+            <h4 class="fw-bold mb-3">Список автомобилей</h4>
               <div class="card">
-                  <div class="card-header">
+                  {{-- <div class="card-header">
                       <h4 class="fw-bold mb-3">Список автомобилей</h4>
                       <div class="row  justify-content-between p-2" style="background-color: #F9F9FC;border-radius:10px;" >
                         <div class="col-4">
@@ -21,19 +22,18 @@
                           </form>
                         </div>
                       </div>
-                  </div><!-- end card header -->
+                  </div><!-- end card header --> --}}
                   
                   <div class="card-body ">
-                      <div class="table-responsive mb-3 mt-3">
+                    <livewire:garage-table theme="bootstrap-5"/>
+                      {{-- <div class="table-responsive mb-3 mt-3">
                           <table class="table mb-0 " id="categories-table">
                               <thead>
                                   <tr>
-                                    {{-- '⬆' --}}
                                       <th scope="col"> @sortablelink('car.name','Марка автомобиля')</th>
                                       <th scope="col"> @sortablelink('car_number','Номер автомобиля')</th>
                                       <th scope="col">@sortablelink('branch.name','Филиал')</th>
                                       <th scope="col">@sortablelink('created_at','Дата')</th>
-                                      {{-- <th scope="col">@sortablelink('','Статус')</th> --}}
                                       <th scope="col">@sortablelink('','Action')</th>
                                   </tr>
                               </thead>
@@ -44,11 +44,6 @@
                                       <td>{{$garage->car_number}}</td>
                                       <td>{{$garage->branch->name}}</td>
                                       <td>{{$garage->created_at->format('Y.m.d , H:i')}}</td>
-                                      {{-- <td>
-                                        <div class="form-check form-switch mb-2">
-                                            <input class="form-check-input" style="cursor: pointer" type="checkbox" role="switch" id="myCheckbox" <?=($garage->is_active==1) ? "checked" : ''?> onchange="updateStatus(this.checked,{{$garage->id}})">
-                                        </div>
-                                      </td> --}}
                                       <td>
                                         <a class="text-success dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
                                              <i data-feather="more-vertical"  class="fs-8"></i>
@@ -66,11 +61,10 @@
                                 @endforeach
                               </tbody>
                           </table>
-                      </div>
-                      @if ($garages->hasPages())
+                      </div> --}}
+                      {{-- @if ($garages->hasPages())
                         <nav>
                             <ul class="pagination">
-                                {{-- Артка sahifa tugmasi --}}
                                 @if ($garages->onFirstPage())
                                     <li class="page-item disabled"><a class="page-link">&laquo; Артка</a></li>
                                 @else
@@ -79,7 +73,6 @@
                                     </li>
                                 @endif
 
-                                {{-- Sahifa raqamlari --}}
                                 @foreach ($garages->getUrlRange(1, $garages->lastPage()) as $page => $url)
                                     @if ($page == $garages->currentPage())
                                         <li class="page-item active" aria-current="page"><a class="page-link">{{ $page }}</a></li>
@@ -88,7 +81,6 @@
                                     @endif
                                 @endforeach
 
-                                {{-- Кейинги sahifa tugmasi --}}
                                 @if ($garages->hasMorePages())
                                     <li class="page-item">
                                         <a class="page-link" href="{{ $garages->nextPageUrl() }}" rel="next">Кейинги &raquo;</a>
@@ -98,7 +90,7 @@
                                 @endif
                             </ul>
                         </nav>
-                      @endif
+                      @endif --}}
                   </div>
               </div>
           </div>
@@ -108,8 +100,33 @@
 	</div> 
 @endsection
 
-
+@push('css')
+    <link rel="stylesheet" href="{{asset('rappasoft/css/bootstrap-custom.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/bootstrap-custom.min.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/flatpickr.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/laravel-livewire-tables-thirdparty.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/laravel-livewire-tables-thirdparty.min.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/laravel-livewire-tables-thirdparty.min.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/laravel-livewire-tables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/numberRange.css')}}">
+    <link rel="stylesheet" href="{{asset('rappasoft/css/numericSlider.css')}}">
+@endpush
 @push('js')
+<script src="{{asset('rappasoft/js/laravel-livewire-tables-thirdparty.js')}}"></script>
+<script src="{{asset('rappasoft/js/laravel-livewire-tables-thirdparty.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/laravel-livewire-tables.js')}}"></script>
+<script src="{{asset('rappasoft/js/laravel-livewire-tables.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-boolean.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-boolean.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-date-range.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-date-range.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-number-range.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/filter-number-range.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/reorder.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/reorder.min.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/tableWrapper.js')}}"></script>
+<script src="{{asset('rappasoft/js/partials/tableWrapper.min.js')}}"></script>
+<script src="{{asset('livewire/livewire.js')}}" data-csrf="dVRJXidse0xIgecuwK5Smk3JkjRbWOAvsEk3YLfZ" data-update-uri="" data-navigate-once="true"></script>
 <script>
     function deleteItem(garage_id) {
         Swal.fire({
