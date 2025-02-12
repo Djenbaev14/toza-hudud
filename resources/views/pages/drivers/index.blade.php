@@ -10,11 +10,11 @@
 
         <div class="row mt-4">
           <div class="col-12">
+            <h4 class="fw-bold mb-3">Список водителов</h4>
               <div class="card">
                   <div class="card-header">
-                      <h4 class="fw-bold mb-3">Список водителов</h4>
                       <div class="row  justify-content-between p-2" style="background-color: #F9F9FC;border-radius:10px;" >
-                        <div class="col-4">
+                        <div class="col-lg-4 col-sm-12">
                           <form action="{{ url('/drivers') }}" id="form" class="d-flex" method="GET">
                             <input type="search" class="form-control"  name="search" onkeyup="doSearch(this.value)" value="{{ request('search') }}" placeholder="Поиск"/>
                             <input type="hidden" name="page" value="{{ request('page', 1) }}">
@@ -28,10 +28,10 @@
                           <table class="table mb-0" id="categories-table">
                               <thead>
                                   <tr>
-                                      <th scope="col">@sortablelink('full_name','ФИО')</th>
-                                      <th scope="col">@sortablelink('phone','Телефон номер')</th>
-                                      <th scope="col">@sortablelink('created_at','Дата')</th>
-                                      <th scope="col">@sortablelink('','Action')</th>
+                                      <th scope="col" class="text-nowrap">@sortablelink('full_name','ФИО')</th>
+                                      <th scope="col" class="text-nowrap">@sortablelink('phone','Телефон номер')</th>
+                                      <th scope="col" class="text-nowrap">@sortablelink('created_at','Дата')</th>
+                                      <th scope="col" class="text-nowrap">@sortablelink('','Action')</th>
                                   </tr>
                               </thead>
                               <tbody>

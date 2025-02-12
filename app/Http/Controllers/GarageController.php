@@ -140,7 +140,7 @@ class GarageController extends Controller
                 'body_number'=>$request->body_number,
                 'wine_number'=>$request->wine_number,
                 ]);
-    
+            $garage->save();
             foreach ($request->att as $key => $value) {
                 if($value['size'] && $value['km']){
 

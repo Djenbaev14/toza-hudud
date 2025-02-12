@@ -22,8 +22,9 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-12">
-                        <form action="{{route('drivers.store')}}" method="POST" enctype="multipart/form-data">
-                          @csrf
+                        <form action="{{route('drivers.update',$driver->id)}}" method="POST" enctype="multipart/form-data">
+                            @method("PATCH")
+                            @csrf
                           
                           <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -38,21 +39,21 @@
                               <div class="row">
                                 <div class="col-lg-6  col-sm-12 mb-3">
                                   <label for="">ФИО</label>
-                                  <input type="text" name="full_name" value="{{old('full_name')}}" placeholder="Водител атын киритин" class="form-control">
+                                  <input type="text" name="full_name" value="{{$driver->full_name}}" placeholder="Водител атын киритин" class="form-control">
                                   @error('full_name')
                                   <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Дата рождения</label>
-                                  <input type="date" name="birth_date" value="{{old('birth_date')}}" class="form-control">
+                                  <input type="date" name="birth_date" value="{{$driver->birth_date}}" class="form-control">
                                   @error('birth_date')
                                   <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Паспорт серия</label>
-                                  <input type="text" placeholder="KA1234567" oninput="ToUpper(this)" maxlength="9" name="passport" value="{{old('passport')}}" class="form-control">
+                                  <input type="text" placeholder="KA1234567" oninput="ToUpper(this)" maxlength="9" name="passport" value="{{$driver->passport}}" class="form-control">
                                   @error('passport')
                                   <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
@@ -61,7 +62,7 @@
                                   <label for="">Телефон номер</label>
                                   <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+998</span>
-                                    <input type="text" name="phone" value="{{old('phone')}}" maxlength="9" placeholder="Телефон номерин киритин" class="form-control">
+                                    <input type="text" name="phone" value="{{$driver->phone}}" maxlength="9" placeholder="Телефон номерин киритин" class="form-control">
                                   </div>
                                   @error('phone')
                                   <span class="text-danger text-sm">{{ $message }}</span>
@@ -69,14 +70,14 @@
                                 </div> 
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Кем был дан</label>
-                                  <input type="text" name="given_by_whom" value="{{old('given_by_whom')}}" class="form-control">
+                                  <input type="text" name="given_by_whom" value="{{$driver->given_by_whom}}" class="form-control">
                                   @error('given_by_whom')
                                     <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Адрес</label>
-                                  <textarea name="address" class="form-control" id="" cols="30" rows="3"></textarea>
+                                  <textarea name="address" class="form-control" id="" cols="30" rows="3">{{$driver->address}}</textarea>
                                 </div>
                               </div>
                             </div>
@@ -84,7 +85,7 @@
                               <div class="row">
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Номер сертификата</label>
-                                  <input type="text" oninput="ToUpper(this)" maxlength="9" name="license_number" value="{{old('license_number')}}" class="form-control">
+                                  <input type="text" oninput="ToUpper(this)" maxlength="9" name="license_number" value="{{$driver->driver_license->license_number}}" class="form-control">
                                   @error('license_number')
                                     <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
@@ -93,9 +94,14 @@
                                   <label for="">Категории</label>
                                   <select id="multiple" name="certificate_category_id[]" style="width: 100%" class="js-states form-control" multiple>
                                     @foreach ($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @if (in_array($category->id,$driver->driver_license->certificate_category_id))
+                                            <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                        @else
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endif
                                     @endforeach
                                   </select>
+                                  {{-- {{$driver->driver_license->certificate_category_id[0]}} --}}
                                   @error('certificate_category_id')
                                     <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
@@ -103,14 +109,14 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Дата выдачи</label>
-                                  <input type="date" name="license_issue_date" value="{{old('license_issue_date')}}" placeholder="Дата выдачи" class="form-control">
+                                  <input type="date" name="license_issue_date" value="{{$driver->driver_license->license_issue_date}}" placeholder="Дата выдачи" class="form-control">
                                   @error('license_issue_date')
                                     <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror
                                 </div>
                                 <div class="col-lg-6 col-sm-12 mb-3">
                                   <label for="">Срок годности</label>
-                                  <input type="date" name="license_expiry_date" value="{{old('license_expiry_date')}}" placeholder="Дата выдачи" class="form-control">
+                                  <input type="date" name="license_expiry_date" value="{{$driver->driver_license->license_expiry_date}}" placeholder="Дата выдачи" class="form-control">
                                   @error('license_expiry_date')
                                     <span class="text-danger text-sm">{{ $message }}</span>
                                   @enderror

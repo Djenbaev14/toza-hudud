@@ -42,7 +42,7 @@
                               <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                   <div class="row">
-                                      <div class="col-6 mb-3">
+                                      <div class="col-lg-6 col-sm-12 mb-3">
                                         <label class="form-label">Выберите автомобиль:</label>
                                         <select name="car_id" id="" class="form-control">
                                           <option value="" hidden>Выберите автомобиль</option>
@@ -51,29 +51,29 @@
                                           @endforeach
                                         </select>
                                       </div>
-                                      <div class="col-6 mb-3">
+                                      <div class="col-lg-6 col-sm-12 mb-3">
                                         <label for="" class="form-label">Номер автомобиля:</label>
                                         <input type="text" name="car_number" value="{{$garage->car_number}}" oninput="ToUpper(this)" maxlength="8" placeholder="95A123AA" class="form-control">
                                       </div>
-                                      <div class="col-3 mb-3">
+                                      <div class="col-lg-6 col-sm-12 mb-3">
                                         <label for="" class="form-label">Год выпуска:</label>
                                         <input type="number" value="{{$garage->manufacturing_year}}"  name="manufacturing_year" class="form-control" id="">
                                       </div>
-                                      <div class="col-3 mb-3">  
+                                      <div class="col-lg-3 col-sm-12 mb-3">  
                                         <label for="" class="form-label">Текущий пробег:</label>
                                         <input type="number" disabled value="{{$garage->current_mileage}}" name="current_mileage" class="form-control" id="">
                                       </div>
                                       <hr>
                                       <div class="row">
-                                        <div class="col-4 mb-3">  
+                                        <div class="col-lg-4 col-sm-12 mb-3">  
                                           <label for="" class="form-label">Двигатель Номер:</label>
                                           <input type="text" value="{{$garage->engine_number}}"  oninput="ToUpper(this)" name="engine_number" class="form-control" id="">
                                         </div>
-                                        <div class="col-4 mb-3">  
+                                        <div class="col-lg-4 col-sm-12 mb-3">  
                                           <label for="" class="form-label">Кузов Номер:</label>
                                           <input type="text" value="{{$garage->body_number}}"  oninput="ToUpper(this)" name="body_number" class="form-control" id="">
                                         </div>
-                                        <div class="col-4 mb-3">  
+                                        <div class="col-lg-4 col-sm-12 mb-3">  
                                           <label for="" class="form-label">VIN Номер:</label>
                                           <input type="text" value="{{$garage->wine_number}}"  oninput="ToUpper(this)" name="wine_number" class="form-control" id="">
                                         </div>
@@ -83,15 +83,15 @@
                                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                                   <h4>Расход по нормам</h4>
                                   <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-sm-12">
                                       @foreach ($expenditure_types as $type)
                                         <div class="mb-3">
                                           <label for="" class="form-label">{{$type->name}}</label>
                                           <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-lg-6 col-sm-12">
                                               <input type="number" name="att[{{$type->id}}][size]" value="<?=($garage->standard_expend->where('expenditure_type_id',$type->id)->count() > 0) ? $garage->standard_expend->where('expenditure_type_id',$type->id)->first()->size : '' ?>" > {{$type->unit->name}}
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-lg-6 col-sm-12">
                                               <input type="number" name="att[{{$type->id}}][km]" value="<?=($garage->standard_expend->where('expenditure_type_id',$type->id)->count() > 0) ? $garage->standard_expend->where('expenditure_type_id',$type->id)->first()->km : '' ?>"> Км
                                             </div>
                                             

@@ -28,4 +28,7 @@ class Driver extends Model
     public function driver_license(){
         return $this->hasOne(Driver_license::class);
     }
+    public function certificate_category(){
+        return $this->hasMany(Certificate_category::class);
+    }
 }

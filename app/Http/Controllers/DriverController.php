@@ -9,6 +9,7 @@ use App\Models\Driver_license;
 use App\Models\Garage;
 use App\Models\GarageDriver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DriverController extends Controller
 {
@@ -33,10 +34,8 @@ class DriverController extends Controller
      */
     public function create()
     {
-        $garages=Garage::whereNull('deleted_at')->orderBy('id','desc')->get();
-        $branches=Branch::where('is_active',1)->where('deleted_at',null)->orderBy('id','desc')->get();
         $categories=Certificate_category::all();
-        return view('pages.drivers.create',compact('garages','categories','branches'));
+        return view('pages.drivers.create',compact('categories'));
     }
 
     /**
@@ -54,7 +53,6 @@ class DriverController extends Controller
             'certificate_category_id'=>'required',
             'license_issue_date'=>'required',
             'license_expiry_date'=>'required',
-            'branch_id'=>'required',
         ]);
         if($request->has('photo')){
             $request->validate([
@@ -77,12 +75,6 @@ class DriverController extends Controller
             'address'=>$request->address,
             'given_by_whom'=>$request->given_by_whom,
         ]);
-        // GarageDriver::create([
-        //     'user_id'=>auth()->user()->id,
-        //     'branch_id'=>$request->branch_id,
-        //     'driver_id'=>$driver->id,
-        //     'garage_id'=>$request->garage_id
-        // ]);
         Driver_license::create([
             'driver_id'=>$driver->id,
             'license_number'=>$request->license_number,
@@ -111,15 +103,67 @@ class DriverController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $driver=Driver::find($id);
+        $categories=Certificate_category::all();
+            
+        return view('pages.drivers.edit',compact('driver','categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'full_name'=>'required',
+            'birth_date'=>'required',
+            'passport'=>'required',
+            'phone'=>'required',
+            'given_by_whom'=>'required',
+            'license_number'=>'required',
+            'certificate_category_id'=>'required',
+            'license_issue_date'=>'required',
+            'license_expiry_date'=>'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            Driver::find($id)->update([
+                'full_name'=>$request->full_name,
+                'birth_date'=>$request->birth_date,
+                'passport'=>$request->passport,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'given_by_whom'=>$request->given_by_whom,
+            ]);
+            
+            if($request->has('photo')){
+                $request->validate([
+                    'license_photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                ]);
+                // photo storage
+                $photo=$request->license_photo;
+                $photo_name=time().'.'.$photo->getClientOriginalExtension();
+                $photo->move(public_path('images/drivers'),$photo_name);
+            }else{
+                $photo_name=null;
+            }
+            Driver_license::where('driver_id',$id)->update([
+                'driver_id'=>$id,
+                'license_number'=>$request->license_number,
+                'license_issue_date'=>$request->license_issue_date,
+                'license_expiry_date'=>$request->license_expiry_date,
+                'license_photo'=>$photo_name,
+                'certificate_category_id'=>$request->certificate_category_id,
+            ]);
+    
+            DB::commit();
+            return redirect()->route('drivers.index')->with('success','Информация о драйвере успешно изменена');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('drivers.index')->with('error',$th->getMessage());
+        }
+
     }
 
     /**

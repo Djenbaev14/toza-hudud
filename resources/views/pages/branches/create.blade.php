@@ -7,23 +7,20 @@
 <div class="content">
 	<div class="container-xxl">
 
+      <div class="row justify-content-between mt-2" >
+        <div class="col-4">
+          <h4 class="fw-bold mb-3">Создать</h4>
+        </div>
+        <div class="col-8 ">
+          <a href="{{route('branches.index')}}" class="btn btn-success float-end mx-2">
+            Назад
+          </a>
+        </div>
+      </div>
 
-        <div class="row mt-4">
+        <div class="row mt-2">
           <div class="col-12">
               <div class="card">
-                  <div class="card-header">
-                      <div class="row  justify-content-between p-2" >
-                        <div class="col-4">
-                          <h4 class="fw-bold mb-3">Создать</h4>
-                        </div>
-                        <div class="col-8 ">
-                          <a href="{{route('branches.index')}}" class="btn btn-success float-end mx-2">
-                            Назад
-                          </a>
-                        </div>
-                      </div>
-                  </div>
-                  
                   <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
@@ -32,7 +29,7 @@
                               <div class="row">
                                 <div class="mb-3">
                                   <label class="form-label">Тип</label>
-                                  <select name="district_id" id="single" class="form-control">
+                                  <select name="district_id" class="form-control">
                                     <option hidden value="">Выберите</option>
                                     @foreach($districts as $district)
                                       <option value="{{$district->id}}">{{$district->name}}</option>

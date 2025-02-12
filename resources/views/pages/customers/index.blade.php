@@ -10,17 +10,17 @@
 
         <div class="row mt-4">
           <div class="col-12">
+            <h4 class="fw-bold mb-3">Список клиенты</h4>
               <div class="card">
                   <div class="card-header">
-                      <h4 class="fw-bold mb-3">Список клиенты</h4>
-                      <div class="row  justify-content-between p-2" style="background-color: #F9F9FC;border-radius:10px;" >
-                        <div class="col-4">
+                      <div class="row g-1 justify-content-between p-2" style="background-color: #F9F9FC;border-radius:10px;" >
+                        <div class="col-lg-4 col-sm-12">
                           <form action="{{ url('/clients') }}" class="d-flex" method="GET">
                             <input type="search" class="form-control" oninput="this.form.submit()" name="search" value="{{ request('search') }}" placeholder="Поиск"/>
                         </form>
                         </div>
-                        <div class="col-8">
-                          <a href="{{route('clients.create')}}" class="btn btn-success float-end mx-2">
+                        <div class="col-lg-3 col-sm-12">
+                          <a href="{{route('clients.create')}}" class="btn btn-success float-end w-100">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M18 12L6 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 6V18M18 12L6 12" stroke="url(#paint0_linear_1494_22742)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><defs><linearGradient id="paint0_linear_1494_22742" x1="11.8537" y1="4.97561" x2="12.1463" y2="20.0488" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"></stop><stop offset="1" stop-color="#fff"></stop></linearGradient></defs></svg>
                             Добавить клиент
                           </a>
@@ -33,12 +33,12 @@
                           <table class="table " id="roles-table">
                               <thead>
                                   <tr>
-                                      <th scope="col">ФИО</th>
-                                      <th scope="col">ПИФЛ или ИНН</th>
-                                      <th scope="col">Телефон номер</th>
-                                      <th scope="col">День рождения</th>
-                                      <th scope="col">Тип лица</th>
-                                      <th scope="col">Действия</th>
+                                      <th scope="col" class="text-nowrap">ФИО</th>
+                                      <th scope="col" class="text-nowrap">ПИФЛ или ИНН</th>
+                                      <th scope="col" class="text-nowrap">Телефон номер</th>
+                                      <th scope="col" class="text-nowrap">День рождения</th>
+                                      <th scope="col" class="text-nowrap">Тип лица</th>
+                                      <th scope="col" class="text-nowrap">Действия</th>
                                   </tr>
                               </thead>
                               <tbody>

@@ -13,7 +13,7 @@
               <div class="card">
                   <div class="card-header">
                       <div class="row  justify-content-between p-2" >
-                        <div class="col-4">
+                        <div class="col-lg-4 col-sm-12">
                           <h4 class="fw-bold mb-3">Создать Услуга
                           </h4>
                         </div>
