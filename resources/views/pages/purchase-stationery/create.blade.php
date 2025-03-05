@@ -184,7 +184,7 @@
                     if (productId) {
                         // AJAX orqali narxni olib kelish
                           const APP_URL = "{{ config('app.url') }}";
-                        fetch(`${APP_URL}/stationery/get-product-price/${productId}`, {
+                        fetch(`/stationery/get-product-price/${productId}`, {
                           method: 'GET',
                         })
                         .then(response => response.json())

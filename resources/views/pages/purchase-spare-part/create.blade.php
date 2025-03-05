@@ -201,7 +201,7 @@
 
                       if (productId) {
                           const APP_URL = "{{ config('app.url') }}";
-                          fetch(`${APP_URL}/spare-part/get-product-price/${productId}`, {
+                          fetch(`/spare-part/get-product-price/${productId}`, {
                             method: 'GET',
                           })
                           .then(response => response.json())
